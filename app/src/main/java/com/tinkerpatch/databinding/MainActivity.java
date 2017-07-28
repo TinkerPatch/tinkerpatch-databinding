@@ -1,5 +1,6 @@
 package com.tinkerpatch.databinding;
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.widget.Button;
 
 import com.tencent.tinker.lib.util.TinkerLog;
 import com.tencent.tinker.loader.shareutil.ShareTinkerInternals;
+import com.tinkerpatch.databinding.databinding.ActivityMainBinding;
 import com.tinkerpatch.sdk.TinkerPatch;
 import com.tinkerpatch.sdk.server.callback.ConfigRequestCallback;
 
@@ -19,7 +21,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        Dummy foo = new Dummy("TITLE", "this is content", "Summary");
+        binding.setFoo(foo);
+
         Log.e(TAG, "I am on onCreate classloader1:" + MainActivity.class.getClassLoader().toString());
         //test resource change
         Log.e(TAG, "I am on onCreate string:" + getResources().getString(R.string.test_resource));
