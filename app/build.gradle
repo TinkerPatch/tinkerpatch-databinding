@@ -18,6 +18,8 @@ dependencies {
     compile ("com.tinkerpatch.tinker:aosp-dexutils:${TINKER_VERSION}") { changing = true }
     compile ("com.tinkerpatch.tinker:bsdiff-util:${TINKER_VERSION}") { changing = true }
     compile ("com.tinkerpatch.tinker:tinker-commons:${TINKER_VERSION}") { changing = true }
+
+    testDebugCompile ("com.android.support:multidex-instrumentation:1.0.2")
 }
 
 android {
