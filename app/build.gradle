@@ -1,0 +1,81 @@
+apply plugin: 'com.android.application'
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile "com.android.support:appcompat-v7:26.0.0"
+    compile "com.android.support:multidex:1.0.2"
+
+    //无需引入tinker的任何库,使用tinkerpatch sdk即可
+    compile("com.tinkerpatch.sdk:tinkerpatch-android-sdk:${TINKERPATCH_VERSION}") { changing = true }
+
+//    compile("com.tinkerpatch.sdk:tinkerpatch-okhttp3-loader:${TINKERPATCH_VERSION}") { changing = true }
+//    compile "com.squareup.okhttp3:okhttp:$OKHTTP3_VERSION"
+//    compile("com.tinkerpatch.sdk:tinkerpatch-okhttp-loader:${TINKERPATCH_VERSION}") { changing = true }
+//    compile "com.squareup.okhttp:okhttp:$OKHTTP_VERSION"
+
+    compile ("com.tinkerpatch.tinker:tinker-android-lib:${TINKER_VERSION}") { changing = true }
+    compile ("com.tinkerpatch.tinker:tinker-android-loader:${TINKER_VERSION}") { changing = true }
+    compile ("com.tinkerpatch.tinker:aosp-dexutils:${TINKER_VERSION}") { changing = true }
+    compile ("com.tinkerpatch.tinker:bsdiff-util:${TINKER_VERSION}") { changing = true }
+    compile ("com.tinkerpatch.tinker:tinker-commons:${TINKER_VERSION}") { changing = true }
+}
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "26.0.1"
+
+    signingConfigs {
+        release {
+            storeFile rootProject.file("keystore/Android.keystore")
+            storePassword 'Wangpeiming110'
+            keyAlias 'android.keystore'
+            keyPassword 'Wangpeiming110'
+        }
+
+        debug {
+            storeFile rootProject.file("keystore/debug.keystore")
+        }
+    }
+
+    defaultConfig {
+        applicationId "com.tinkerpatch.databinding"
+        minSdkVersion 15
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt')
+            signingConfig signingConfigs.debug
+        }
+        debug {
+            debuggable true
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    dataBinding {
+        enabled = true
+    }
+//    productFlavors {
+//        flavor1 {
+//            applicationId 'com.tinkerpatch.databinding.flavor1'
+//        }
+//
+//        flavor2 {
+//            applicationId 'com.tinkerpatch.databinding.flavor2'
+//        }
+//    }
+}
+
+
+apply from: 'tinkerpatch.gradle'
+
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
